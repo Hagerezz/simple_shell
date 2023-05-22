@@ -11,3 +11,8 @@
 #include <sys/wait.h>
 #include <limits.h>
 #include <errno.h>
+/**
+ * execute_no_args - execute one line command
+ * @c: pointer to the command line
+ */
+void execute_no_args(char *c);
