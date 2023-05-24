@@ -1,4 +1,5 @@
 #include "shell.h"
+
 /**
  * execute - execute command
  * @command: pointer to the command line
@@ -7,11 +8,12 @@
 void execute(char *command, char *env[])
 {
 	int status;
-	pid_t pid = fork();
+	pid_t pid;
 	char *args[MAX_ARG];
 	char *token;
 	int i;
 
+	pid = fork();
 	if (pid == 0)
 	{
 		token = strtok(command, " ");
@@ -24,7 +26,6 @@ void execute(char *command, char *env[])
 		}
 		args[i] = NULL;
 		execve(args[0], args, env);
-		perror("./shell");
 		exit(0);
 	}
 	else if (pid < 0)

@@ -6,14 +6,12 @@ void input(void)
 {
 	char *command = NULL;
 	char *env[] = {NULL};
-	const char *line = "#cisfun$ ";
 	size_t len = 0;
 	ssize_t r;
 	int i = 0;
 
 	while (1)
 	{
-		write(STDOUT_FILENO, line, 9);
 		r = getline(&command, &len, stdin);
 		if (r == -1)
 		{
