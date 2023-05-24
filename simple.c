@@ -1,17 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 #include "shell.h"
 
 #define MAX_ARGS 64
-#define DELIMITER " \t\r\n\a"
-
+#define DELIMITER "\t\r\n\a"
 
 /**
  * split_line - Split a line into an array of tokens
  * @line: The input line to be split
- *
  * Return: An array of tokens
  */
 char **split_line(char *line)
@@ -54,7 +48,7 @@ char **split_line(char *line)
  * main - Simple shell program
  * Return: Always 0
  */
-int main(void)
+int maiiiin(void)
 {
 	char *line = NULL;
 	size_t len = 0;
@@ -88,7 +82,6 @@ int main(void)
 				perror("execve");
 		}
 	}
-
 	free(line);
 	free(args);
 	return (0);
