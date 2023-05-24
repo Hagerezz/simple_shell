@@ -18,4 +18,5 @@
 
 void input(void);
 void execute(char *command, char *env[]);
+int main(void);
 #endif
