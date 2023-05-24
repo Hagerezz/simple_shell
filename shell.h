@@ -14,7 +14,7 @@
 
 #define TRUE 1
 #define FALSE 0
-#define MAX_ARG 50
+#define MAX_ARGS 64
 
 char **split_line(char *line);
 void execute(char *command, char *env[]);
