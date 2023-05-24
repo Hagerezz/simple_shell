@@ -1,8 +1,12 @@
 #include "shell.h"
 
+#define MAX_ARGS 64
+#define DELIMITER " \t\r\n\a"
+
 /**
  * split_line - Split a line into an array of tokens
  * @line: The input line to be split
+ *
  * Return: An array of tokens
  */
 char **split_line(char *line)
@@ -50,13 +54,19 @@ int main(void)
     char *line = NULL;
     size_t len = 0;
     char **args;
-    int status;
-    pid_t pid;
+    int status, r;
     char *s = "./shell: No such file or directory\n";
+    pid_t pid;
+
     while (1)
     {
         write(STDOUT_FILENO, "#cisfun$ ", 9);
-        getline(&line, &len, stdin);
+        r = getline(&line, &len, stdin);
+        if (r == -1)
+        {
+            exit(EXIT_FAILURE);
+        }
+
         args = split_line(line);
 
         if (args[0] == NULL)
@@ -65,7 +75,7 @@ int main(void)
         if (access(args[0], F_OK) == -1)
         {
             write(STDOUT_FILENO, s, 35);
-            continue;
+            continue; /* Do not fork if command does not exist */
         }
         else
         {
