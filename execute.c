@@ -26,6 +26,7 @@ void execute(char *command, char *env[])
 		}
 		args[i] = NULL;
 		execve(args[0], args, env);
+		perror("./shell");
 		exit(0);
 	}
 	else if (pid < 0)

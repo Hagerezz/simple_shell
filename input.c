@@ -15,7 +15,6 @@ void input(void)
 		r = getline(&command, &len, stdin);
 		if (r == -1)
 		{
-			perror("getline");
 			exit(0);
 		}
 		while (command[i] != '\n')
