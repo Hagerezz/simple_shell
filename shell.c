@@ -1,7 +1,7 @@
 #include "shell.h"
 
 #define MAX_ARGS 64
-#define DELIMITER "\t\r\n\a"
+#define DELIMITER " \t\r\n\a"
 
 /**
  * split_line - Split a line into an array of tokens
@@ -48,42 +48,48 @@ char **split_line(char *line)
  * main - Simple shell program
  * Return: Always 0
  */
-int maiiiin(void)
+int main(void)
 {
 	char *line = NULL;
 	size_t len = 0;
 	char **args;
 	int status;
-
+	pid_t pid;
+	char *s = "./shell: No such file or directory\n";
 	while (1)
 	{
-		printf("#cisfun$ ");
+		write(STDOUT_FILENO, "#cisfun$ ", 9);
 		getline(&line, &len, stdin);
 		args = split_line(line);
 
 		if (args[0] == NULL)
 			continue;
-		if (strcmp(args[0], "exit") == 0)
-		{
-			free(line);
-			free(args);
-			exit(EXIT_SUCCESS);
-		}
 
 		if (access(args[0], F_OK) == -1)
 		{
-			printf("%s: Command not found.\n", args[0]);
-			continue;  /* Do not fork if command does not exist */
+			write(STDOUT_FILENO, s, 35);
+			continue;
 		}
 		else
 		{
-			status = execve(args[0], args, NULL);
-			if (status == -1)
-				perror("execve");
+			pid = fork();
+			if (pid == 0)
+			{
+				execve(args[0], args, NULL);
+				perror("./shell");
+				exit(0);
+			}
+			else if (pid < 0)
+			{
+				perror("fork");
+				exit(0);
+			}
+			else
+				waitpid(pid, &status, 0);
 		}
+		free(line);
+		free(args);
 	}
-	free(line);
-	free(args);
+
 	return (0);
 }
-
