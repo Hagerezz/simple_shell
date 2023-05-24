@@ -52,18 +52,11 @@ int main(void)
     char **args;
     int status;
     pid_t pid;
-    int r;
     char *s = "./shell: No such file or directory\n";
-
     while (1)
     {
         write(STDOUT_FILENO, "#cisfun$ ", 9);
-        r = getline(&line, &len, stdin);
-        if (r == -1)
-        {
-            exit(EXIT_FAILURE);
-        }
-        
+        getline(&line, &len, stdin);
         args = split_line(line);
 
         if (args[0] == NULL)
