@@ -16,7 +16,7 @@
 #define FALSE 0
 #define MAX_ARG 50
 
-void input(void);
+char **split_line(char *line);
 void execute(char *command, char *env[]);
 int main(void);
 #endif

@@ -1,95 +1,74 @@
 #include "shell.h"
 
-#define MAX_ARGS 64
-#define DELIMITER " \t\r\n\a"
+#define MAX_COMMAND_LENGTH 1024
+#define MAX_ARGS 128
 
 /**
- * split_line - Split a line into an array of tokens
- * @line: The input line to be split
- * Return: An array of tokens
+ * main: get the command from the user
+ * Return: 0 Always
  */
-char **split_line(char *line)
+int main()
 {
-	int bufsize = MAX_ARGS;
-	int position = 0;
-	char **tokens = malloc(bufsize * sizeof(char *));
-	char *token;
+    char *command = NULL;
+    char *env[] = {NULL};
+    const char *line = "#cisfun$ ";
+    size_t len = 0;
+    ssize_t r;
+    int i = 0;
 
-	if (!tokens)
-	{
-		fprintf(stderr, "Allocation error\n");
-		exit(EXIT_FAILURE);
-	}
-
-	token = strtok(line, DELIMITER);
-	while (token != NULL)
-	{
-		tokens[position] = token;
-		position++;
-
-		if (position >= bufsize)
-		{
-			bufsize += MAX_ARGS;
-			tokens = realloc(tokens, bufsize * sizeof(char *));
-			if (!tokens)
-			{
-				fprintf(stderr, "Allocation error\n");
-				exit(EXIT_FAILURE);
-			}
-		}
-
-		token = strtok(NULL, DELIMITER);
-	}
-	tokens[position] = NULL;
-	return (tokens);
+    while (1)
+    {
+        write(STDOUT_FILENO, line, 9);
+        r = getline(&command, &len, stdin);
+        if (r == -1)
+        {
+            exit(0);
+        }
+        while (command[i] != '\n')
+            i++;
+        command[i] = '\0';
+        execute(command, env);
+    }
+    return 0;
 }
 
 /**
- * main - Simple shell program
- * Return: Always 0
+ * execute - execute command
+ * @command: pointer to the command line
+ * @env: pointer
  */
-int main(void)
+void execute(char *command, char *env[])
 {
-	char *line = NULL;
-	size_t len = 0;
-	char **args;
-	int status;
-	pid_t pid;
-	char *s = "./shell: No such file or directory\n";
-	while (1)
+    int status;
+    pid_t pid;
+    char *args[MAX_ARGS];
+    char *token = strtok(command, " ");
+    int i = 0;
+    char *s = "./shell: No such file or directory\n";
+
+    while (token != NULL)
+    {
+        args[i++] = token;
+        token = strtok(NULL, " ");
+    }
+    args[i] = NULL;
+	if (access(args[0], F_OK) != -1)
 	{
-		write(STDOUT_FILENO, "#cisfun$ ", 9);
-		getline(&line, &len, stdin);
-		args = split_line(line);
-
-		if (args[0] == NULL)
-			continue;
-
-		if (access(args[0], F_OK) == -1)
-		{
-			write(STDOUT_FILENO, s, 35);
-			continue;
-		}
-		else
-		{
-			pid = fork();
-			if (pid == 0)
-			{
-				execve(args[0], args, NULL);
-				perror("./shell");
-				exit(0);
-			}
-			else if (pid < 0)
-			{
-				perror("fork");
-				exit(0);
-			}
-			else
-				waitpid(pid, &status, 0);
-		}
-		free(line);
-		free(args);
+	    pid = fork();
+	    if (pid == 0)
+	    {
+		execve(args[0], args, env);
+		perror("./shell");
+		exit(0);
+	    }
+	    else if (pid < 0)
+	    {
+		perror("fork");
+		exit(0);
+	    }
+	    else
+		waitpid(pid, &status, 0);
+	    return;
 	}
-
-	return (0);
+	write(STDOUT_FILENO, s, 35);
 }
