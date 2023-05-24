@@ -1,8 +1,5 @@
 #include "shell.h"
 
-#define MAX_ARGS 64
-#define DELIMITER " \t\r\n\a"
-
 /**
  * split_line - Split a line into an array of tokens
  * @line: The input line to be split
@@ -14,10 +11,13 @@ char **split_line(char *line)
     int position = 0;
     char **tokens = malloc(bufsize * sizeof(char *));
     char *token;
+    int i = 0;
 
+    while (line[i] != '\n')
+        i++;
+    line[i] = '\0';
     if (!tokens)
     {
-        fprintf(stderr, "Allocation error\n");
         exit(EXIT_FAILURE);
     }
 
@@ -26,18 +26,6 @@ char **split_line(char *line)
     {
         tokens[position] = token;
         position++;
-
-        if (position >= bufsize)
-        {
-            bufsize += MAX_ARGS;
-            tokens = realloc(tokens, bufsize * sizeof(char *));
-            if (!tokens)
-            {
-                fprintf(stderr, "Allocation error\n");
-                exit(EXIT_FAILURE);
-            }
-        }
-
         token = strtok(NULL, DELIMITER);
     }
     tokens[position] = NULL;
@@ -48,7 +36,7 @@ char **split_line(char *line)
  * main - Simple shell program
  * Return: Always 0
  */
-int main(void)
+int main(int argc, char *argv[])
 {
     char *line = NULL;
     size_t len = 0;
@@ -56,10 +44,17 @@ int main(void)
     int status;
     pid_t pid;
     char *s = "./shell: No such file or directory\n";
+    int r;
+
     while (1)
     {
         write(STDOUT_FILENO, "#cisfun$ ", 9);
-        getline(&line, &len, stdin);
+        r = getline(&line, &len, stdin);
+        if (r == -1 || argc != 1)
+        {
+            exit(EXIT_FAILURE);
+        }
+        
         args = split_line(line);
 
         if (args[0] == NULL)
@@ -76,7 +71,7 @@ int main(void)
             if (pid == 0)
             {
                 execve(args[0], args, NULL);
-                perror("./shell");
+                perror(argv[0]);
                 exit(0);
             }
             else if (pid < 0)

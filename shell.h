@@ -15,8 +15,8 @@
 #define TRUE 1
 #define FALSE 0
 #define MAX_ARGS 64
+#define DELIMITER " \t\r\n\a"
+#define MAX_COMMAND_LENGTH 1024
 
 char **split_line(char *line);
-void execute(char *command, char *env[]);
-int main(void);
 #endif
