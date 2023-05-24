@@ -42,8 +42,7 @@ int main(void)
 
 	while (1)
 	{
-		printf("#cisfun$ ");
-		r = getline(&line, &len, stdin);
+        r = getline(&line, &len, stdin);
 		if (r == -1)
         {
             exit(EXIT_FAILURE);
@@ -53,21 +52,14 @@ int main(void)
 
 		if (args[0] == NULL)
 			continue;
-
-		if (access(args[0], F_OK) == -1)
-		{
-			printf("%s: Command not found.\n", args[0]);
-			continue;  /* Do not fork if command does not exist */
-		}
 		else
 		{
 			status = execve(args[0], args, NULL);
 			if (status == -1)
-				perror("execve");
+				perror("./shell");
 		}
+        free(line);
+    	free(args);
 	}
-
-	free(line);
-	free(args);
 	return (0);
 }
