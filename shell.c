@@ -42,7 +42,6 @@ int main(void)
 
 	while (1)
 	{
-        write(STDOUT_FILENO, "#cisfun$ ", 9);
         r = getline(&line, &len, stdin);
 		if (r == -1)
         {
