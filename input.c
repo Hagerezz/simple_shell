@@ -3,7 +3,7 @@
  * input - get the command from the user
  * Return: 0 Always
  */
-void input()
+void input(void)
 {
 	char *command = NULL;
 	char *envp[] = {NULL};
