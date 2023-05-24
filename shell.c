@@ -11,13 +11,10 @@ char **split_line(char *line)
     int position = 0;
     char **tokens = malloc(bufsize * sizeof(char *));
     char *token;
-    int i = 0;
 
-    while (line[i] != '\n')
-        i++;
-    line[i] = '\0';
     if (!tokens)
     {
+        fprintf(stderr, "Allocation error\n");
         exit(EXIT_FAILURE);
     }
 
@@ -26,6 +23,18 @@ char **split_line(char *line)
     {
         tokens[position] = token;
         position++;
+
+        if (position >= bufsize)
+        {
+            bufsize += MAX_ARGS;
+            tokens = realloc(tokens, bufsize * sizeof(char *));
+            if (!tokens)
+            {
+                fprintf(stderr, "Allocation error\n");
+                exit(EXIT_FAILURE);
+            }
+        }
+
         token = strtok(NULL, DELIMITER);
     }
     tokens[position] = NULL;
@@ -36,21 +45,21 @@ char **split_line(char *line)
  * main - Simple shell program
  * Return: Always 0
  */
-int main(int argc, char *argv[])
+int main(void)
 {
     char *line = NULL;
     size_t len = 0;
     char **args;
     int status;
     pid_t pid;
-    char *s = "./shell: No such file or directory\n";
     int r;
+    char *s = "./shell: No such file or directory\n";
 
     while (1)
     {
         write(STDOUT_FILENO, "#cisfun$ ", 9);
         r = getline(&line, &len, stdin);
-        if (r == -1 || argc != 1)
+        if (r == -1)
         {
             exit(EXIT_FAILURE);
         }
@@ -71,7 +80,7 @@ int main(int argc, char *argv[])
             if (pid == 0)
             {
                 execve(args[0], args, NULL);
-                perror(argv[0]);
+                perror("./shell");
                 exit(0);
             }
             else if (pid < 0)
