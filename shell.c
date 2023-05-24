@@ -42,6 +42,7 @@ int main(void)
 
 	while (1)
 	{
+        printf("#cisfun$ ");
         r = getline(&line, &len, stdin);
 		if (r == -1)
         {
