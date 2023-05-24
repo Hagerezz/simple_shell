@@ -2,25 +2,28 @@
 /**
  * execute - execute command
  * @command: pointer to the command line
- * @envp: pointer
+ * @env: pointer
  */
-void execute(char *command, char *envp[])
+void execute(char *command, char *env[])
 {
-	int s;
+	int status;
 	pid_t pid = fork();
-	char *arg[MAX_ARG];
-	char *a = strtok(command, " ");
-	int j = 0;
+	char *args[MAX_ARG];
+	char *token;
+	int i;
 
 	if (pid == 0)
 	{
-		while (a != NULL)
+		token = strtok(command, " ");
+		i = 0;
+
+		while (token != NULL)
 		{
-			arg[j++] = a;
-			a = strtok(NULL, " ");
+			args[i++] = token;
+			token = strtok(NULL, " ");
 		}
-		arg[j] = NULL;
-		execve(arg[0], arg, envp);
+		args[i] = NULL;
+		execve(args[0], args, env);
 		perror("./shell");
 		exit(0);
 	}
@@ -30,5 +33,5 @@ void execute(char *command, char *envp[])
 		exit(0);
 	}
 	else
-		waitpid(pid, &s, 0);
+		waitpid(pid, &status, 0);
 }

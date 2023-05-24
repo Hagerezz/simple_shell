@@ -16,6 +16,6 @@
 #define FALSE 0
 #define MAX_ARG 50
 
-void execute(char *command, char *env[]);
 void input(void);
+void execute(char *command, char *env[]);
 #endif

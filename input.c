@@ -1,18 +1,17 @@
 #include "shell.h"
 /**
- * input - get the command from the user
- * Return: 0 Always
+ * input: get the command from the user
  */
 void input(void)
 {
 	char *command = NULL;
-	char *envp[] = {NULL};
+	char *env[] = {NULL};
 	const char *line = "#cisfun$ ";
 	size_t len = 0;
 	ssize_t r;
 	int i = 0;
 
-	while (TRUE)
+	while (1)
 	{
 		write(STDOUT_FILENO, line, 9);
 		r = getline(&command, &len, stdin);
@@ -24,6 +23,6 @@ void input(void)
 		while (command[i] != '\n')
 			i++;
 		command[i] = '\0';
-		execute(command, envp);
+		execute(command, env);
 	}
 }
