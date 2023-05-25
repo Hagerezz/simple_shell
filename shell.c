@@ -111,24 +111,14 @@ int main(int argc, char *argv[])
 			chdir(args[1]);
 			continue;
 		}
-		if (args[0] == NULL)
-			continue;
 		if (access(args[0], F_OK) == -1)
-		{
-			printf("%s: Command not found.\n", args[0]);
 			continue;
-		}
 		else
 		{
-			pid = fork();
-			if (pid == 0)
-			{
-				status = execve(args[0], args, NULL);
-				if (status == -1)
-					perror(argv[0]);
-			}
-			else
-				waitpid(pid, &s, 0);
+			status = execve(args[0], args, NULL);
+			if (status == -1)
+				perror(argv[0]);
+
 		}
 		free(line);
 		free(args);
