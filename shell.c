@@ -120,9 +120,7 @@ int main()
 			free(args);
 		}
 		else
-		{
 			waitpid(pid, &s, 0);
-		}
 	}
 	return (0);
 }
