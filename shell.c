@@ -80,6 +80,7 @@ int main(void)
 	size_t len = 0;
 	char **args;
 	int status, r;
+	int s;
 
 	while (1)
 	{
@@ -97,6 +98,9 @@ int main(void)
 				free(args);
 				exit(EXIT_SUCCESS);
 			}
+			s = _atoi(args[1]);
+			free(args);
+			exit(s);
 		}
 		if (args[0] == NULL)
 			continue;
