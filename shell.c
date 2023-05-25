@@ -105,7 +105,8 @@ int main(int argc, char *argv[], char *envp[])
 				exit(status);
 			}
 		}
-		if (args[0][0] == 'e' && args[0][1] == 'n' && args[0][2] == 'v' && args[0][3] == '\0')
+		if (args[0][0] == 'e' && args[0][1] == 'n'
+			&& args[0][2] == 'v' && args[0][3] == '\0')
 		{
 			for (i = 0; envp[i] != NULL; i++)
 			{
@@ -122,7 +123,7 @@ int main(int argc, char *argv[], char *envp[])
 		}
 		else
 		{
-			status = execve(args[0], args, NULL);
+			status = execve(args[0], args, envp);
 			if (status == -1)
 				perror(argv[0]);
 		free(line);
