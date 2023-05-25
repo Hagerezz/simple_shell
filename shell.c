@@ -97,21 +97,14 @@ int main(int argc, char *argv[], char *envp[])
 				free(args);
 				exit(EXIT_SUCCESS);
 			}
-			else
-			{
-				status = _atoi(args[1]);
-				free(line);
-				free(args);
-				exit(status);
-			}
+			status = _atoi(args[1]);
+			free(line);
+			free(args);
+			exit(status);
 		}
-		if (args[0][0] == 'e' && args[0][1] == 'n'
-			&& args[0][2] == 'v' && args[0][3] == '\0')
+		if (args[0][0] == 'c' && args[0][1] == 'd' && args[0][2] == '\0')
 		{
-			for (i = 0; envp[i] != NULL; i++)
-			{
-				printf("%s\n", envp[i]);
-			}
+			chdir(args[1]);
 			continue;
 		}
 		if (args[0] == NULL)
@@ -123,7 +116,7 @@ int main(int argc, char *argv[], char *envp[])
 		}
 		else
 		{
-			status = execve(args[0], args, envp);
+			status = execve(args[0], args, NULL);
 			if (status == -1)
 				perror(argv[0]);
 		free(line);
