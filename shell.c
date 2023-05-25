@@ -104,8 +104,7 @@ int main(int argc, char *argv[])
 			free(args);
 			exit(status);
 		}
-		if (args[0][0] == 'c' && args[0][1] == 'd'
-			&& args[0][2] == '\0')
+		if (args[0][0] == 'c' && args[0][1] == 'd' && args[0][2] == '\0')
 		{
 			chdir(args[1]);
 			continue;
