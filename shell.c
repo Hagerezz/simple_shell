@@ -25,6 +25,7 @@ char **split_line(char *line)
 	tokens[position] = NULL;
 	return (tokens);
 }
+
 /**
  * main - Simple shell program
  * Return: Always 0
@@ -41,10 +42,10 @@ int main(void)
 		printf("#cisfun$ ");
 		r = getline(&line, &len, stdin);
 		if (r == -1)
-        {
-		exit(EXIT_FAILURE);
-        }
-	args = split_line(line);
+		{
+			exit(EXIT_FAILURE);
+		}
+		args = split_line(line);
 
 		if (args[0] == NULL)
 			continue;
@@ -57,10 +58,10 @@ int main(void)
 		{
 			status = execve(args[0], args, NULL);
 			if (status == -1)
-				perror("execve");
+				perror("./shell");
+		free(line);
+		free(args);
 		}
 	}
-	free(line);
-	free(args);
 	return (0);
 }
