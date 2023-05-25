@@ -100,7 +100,7 @@ int main(void)
 			else
 			{
 				free(args);
-				exit(_atoi(args[1]);
+				exit(_atoi(args[1]));
 			}
 		}
 		if (args[0] == NULL)
