@@ -78,8 +78,7 @@ int main()
 	char *line = NULL;
 	size_t len = 0;
 	char **args;
-	int status, r, s;
-	pid_t pid;
+	int status, r;
 
 	while (1)
 	{
@@ -110,17 +109,11 @@ int main()
 		}
 		if (access(args[0], F_OK) == -1)
 			continue;
-		pid = fork();
-		if (pid == 0)
-		{
-			status = execve(args[0], args, NULL);
-			if (status == -1)
-				perror("./shell");
-			free(line);
-			free(args);
-		}
-		else
-			waitpid(pid, &s, 0);
+		status = execve(args[0], args, NULL);
+		if (status == -1)
+			perror("./shell");
+		free(line);
+		free(args);
 	}
 	return (0);
 }
