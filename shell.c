@@ -105,12 +105,6 @@ int main(int argc, char *argv[])
 			free(args);
 			exit(status);
 		}
-		if (args[0][0] == 'c' && args[0][1] == 'd'
-			&& args[0][2] == '\0')
-		{
-			chdir(args[1]);
-			continue;
-		}
 		if (access(args[0], F_OK) == -1)
 			continue;
 		else
@@ -118,7 +112,6 @@ int main(int argc, char *argv[])
 			status = execve(args[0], args, NULL);
 			if (status == -1)
 				perror(argv[0]);
-
 		}
 		free(line);
 		free(args);
