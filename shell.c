@@ -81,8 +81,7 @@ int main(int argc, char *argv[])
 	char *line = NULL;
 	size_t len = 0;
 	char **args;
-	int status, r, s;
-	pid_t pid;
+	int status, r;
 
 	while (1)
 	{
@@ -107,19 +106,9 @@ int main(int argc, char *argv[])
 		}
 		if (access(args[0], F_OK) == -1)
 			continue;
-		pid = fork();
-		if (pid < 0) {
-			printf("Error\n");
-			exit(EXIT_FAILURE);
-		}
-		else if (pid == 0)
-		{
-			status = execve(args[0], args, NULL);
-			if (status == -1)
-				perror(argv[0]);
-		}
-		else
-			waitpid(pid, &s, 0);
+		status = execve(args[0], args, NULL);
+		if (status == -1)
+			perror(argv[0]);
 		free(line);
 		free(args);
 	}
