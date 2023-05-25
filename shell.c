@@ -74,7 +74,7 @@ int _atoi(const char *str)
  * main - Simple shell program
  * Return: Always 0
  */
-int main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[])
 {
 	char *line = NULL;
 	size_t len = 0;
