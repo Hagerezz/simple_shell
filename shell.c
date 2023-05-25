@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 	char *line = NULL;
 	size_t len = 0;
 	char **args;
-	int status, r, i;
+	int status, r;
 
 	while (1)
 	{
