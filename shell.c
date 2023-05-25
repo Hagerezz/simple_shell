@@ -89,14 +89,19 @@ int main(void)
 			exit(EXIT_FAILURE);
 		}
 		args = split_line(line);
-		if (args[1] == NULL && is_exit(args[0]))
+		if (is_exit(args[0]))
 		{
 			free(line);
-			free(args);
 			if (args[1] == NULL)
+			{
+				free(args);
 				exit(EXIT_SUCCESS);
+			}
 			else
+			{
+				free(args);
 				exit(_atoi(args[1]);
+			}
 		}
 		if (args[0] == NULL)
 			continue;
