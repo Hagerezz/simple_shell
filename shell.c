@@ -41,7 +41,7 @@ int is_exit(char *cmd)
 
 /**
  * _atoi - Convert a string to an integer
- * str: The string to convert
+ * @str: The string to convert
  * Return: integer
  */
 int _atoi(const char *str)
@@ -67,7 +67,7 @@ int _atoi(const char *str)
 		num = num * 10 + (*str - '0');
 		str++;
 	}
-	return num * sign;
+	return (num * sign);
 }
 
 /**
