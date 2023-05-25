@@ -13,7 +13,6 @@ char **split_line(char *line)
 
 	if (!tokens)
 	{
-		fprintf(stderr, "Allocation error\n");
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(line, DELIMITER);
@@ -76,12 +75,13 @@ int _atoi(const char *str)
  * @argv: vector of args
  * Return: Always 0
  */
-int main(int argc, char *argv[])
+int main()
 {
 	char *line = NULL;
 	size_t len = 0;
 	char **args;
-	int status, r;
+	int status, r, s;
+	pid_t pid;
 
 	while (1)
 	{
@@ -104,13 +104,26 @@ int main(int argc, char *argv[])
 			free(args);
 			exit(status);
 		}
+		if (args[0][0] == 'c' && args[0][1] == 'd' && args[0][2] == '\0')
+		{
+			chdir(args[1]);
+			continue;
+		}
 		if (access(args[0], F_OK) == -1)
 			continue;
-		status = execve(args[0], args, NULL);
-		if (status == -1)
-			perror(argv[0]);
-		free(line);
-		free(args);
+		pid = fork();
+		if (pid == 0)
+		{
+			status = execve(args[0], args, NULL);
+			if (status == -1)
+				perror("./shell");
+			free(line);
+			free(args);
+		}
+		else
+		{
+			waitpid(pid, &s, 0);
+		}
 	}
 	return (0);
 }
