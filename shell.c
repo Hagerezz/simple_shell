@@ -108,7 +108,11 @@ int main(int argc, char *argv[])
 		if (access(args[0], F_OK) == -1)
 			continue;
 		pid = fork();
-		if (pid == 0)
+		if (pid < 0) {
+			printf("Error\n");
+			exit(EXIT_FAILURE);
+		}
+		else if (pid == 0)
 		{
 			status = execve(args[0], args, NULL);
 			if (status == -1)
