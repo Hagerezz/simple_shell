@@ -34,7 +34,7 @@ char **split_line(char *line)
 int is_exit(char *cmd)
 {
 	if (cmd[0] == 'e' && cmd[1] == 'x' && cmd[2] == 'i' 
-		&& cmd[3] == 't' && cmd[4] == '\0')
+	&& cmd[3] == 't' && cmd[4] == '\0')
 		return 1;
 	return 0;
 }
