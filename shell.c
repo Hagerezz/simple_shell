@@ -74,13 +74,12 @@ int _atoi(const char *str)
  * main - Simple shell program
  * Return: Always 0
  */
-int main(void)
+int main(int argc, char *argv[], char *envp[])
 {
 	char *line = NULL;
 	size_t len = 0;
 	char **args;
-	int status, r;
-	int s;
+	int status, r, i;
 
 	while (1)
 	{
@@ -90,17 +89,29 @@ int main(void)
 			exit(EXIT_FAILURE);
 		}
 		args = split_line(line);
-		if (is_exit(args[0]))
+		if (is_exit(args[0]) && argc == 1)
 		{
-			free(line);
 			if (args[1] == NULL)
 			{
+				free(line);
 				free(args);
 				exit(EXIT_SUCCESS);
 			}
-			s = _atoi(args[1]);
-			free(args);
-			exit(s);
+			else
+			{
+				status = _atoi(args[1]);
+				free(line);
+				free(args);
+				exit(status);
+			}
+		}
+		if (args[0][0] == 'e' && args[0][1] == 'n' && args[0][2] == 'v' && args[0][3] == '\0')
+		{
+			for (i = 0; envp[i] != NULL; i++)
+			{
+				printf("%s\n", envp[i]);
+			}
+			continue;
 		}
 		if (args[0] == NULL)
 			continue;
@@ -113,7 +124,7 @@ int main(void)
 		{
 			status = execve(args[0], args, NULL);
 			if (status == -1)
-				perror("./shell");
+				perror(argv[0]);
 		free(line);
 		free(args);
 		}
