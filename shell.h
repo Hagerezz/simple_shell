@@ -20,4 +20,5 @@
 
 char **split_line(char *line);
 int is_exit(char *cmd);
+int _atoi(const char *str);
 #endif

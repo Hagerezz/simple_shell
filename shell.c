@@ -40,6 +40,37 @@ int is_exit(char *cmd)
 }
 
 /**
+ * _atoi - Convert a string to an integer
+ * str: The string to convert
+ * Return: integer
+ */
+int _atoi(const char *str)
+{
+	int num = 0;
+	int sign = 1;
+
+	while (*str == ' ' || *str == '\t' || *str == '\n')
+	{
+		str++;
+	}
+	if (*str == '-')
+	{
+		sign = -1;
+		str++;
+	}
+	else if (*str == '+')
+	{
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		num = num * 10 + (*str - '0');
+		str++;
+	}
+	return num * sign;
+}
+
+/**
  * main - Simple shell program
  * Return: Always 0
  */
@@ -62,7 +93,10 @@ int main(void)
 		{
 			free(line);
 			free(args);
-			exit(EXIT_SUCCESS);
+			if (args[1] == NULL)
+				exit(EXIT_SUCCESS);
+			else
+				exit(_atoi(args[1]);
 		}
 		if (args[0] == NULL)
 			continue;
