@@ -52,7 +52,6 @@ int main(void)
 
 	while (1)
 	{
-		printf("#cisfun$ ");
 		r = getline(&line, &len, stdin);
 		if (r == -1)
 		{
@@ -70,7 +69,7 @@ int main(void)
 		if (access(args[0], F_OK) == -1)
 		{
 			printf("%s: Command not found.\n", args[0]);
-			continue;  /* Do not fork if command does not exist */
+			continue;
 		}
 		else
 		{
