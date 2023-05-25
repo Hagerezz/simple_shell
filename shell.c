@@ -71,8 +71,6 @@ int _atoi(const char *str)
 
 /**
  * main - Simple shell program
- * @argc: number of args
- * @argv: vector of args
  * Return: Always 0
  */
 int main()
@@ -91,7 +89,7 @@ int main()
 			exit(EXIT_FAILURE);
 		}
 		args = split_line(line);
-		if (is_exit(args[0]) && argc == 1)
+		if (is_exit(args[0]))
 		{
 			if (args[1] == NULL)
 			{
@@ -104,7 +102,8 @@ int main()
 			free(args);
 			exit(status);
 		}
-		if (args[0][0] == 'c' && args[0][1] == 'd' && args[0][2] == '\0')
+		if (args[0][0] == 'c' && args[0][1] == 'd'
+			&& args[0][2] == '\0')
 		{
 			chdir(args[1]);
 			continue;
