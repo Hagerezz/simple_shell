@@ -13,6 +13,7 @@ char **split_line(char *line)
 
 	if (!tokens)
 	{
+		fprintf(stderr, "Allocation error\n");
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(line, DELIMITER);
@@ -71,9 +72,11 @@ int _atoi(const char *str)
 
 /**
  * main - Simple shell program
+ * @argc: number of args
+ * @argv: vector of args
  * Return: Always 0
  */
-int main()
+int main(int argc, char *argv[])
 {
 	char *line = NULL;
 	size_t len = 0;
@@ -88,7 +91,7 @@ int main()
 			exit(EXIT_FAILURE);
 		}
 		args = split_line(line);
-		if (is_exit(args[0]))
+		if (is_exit(args[0]) && argc == 1)
 		{
 			if (args[1] == NULL)
 			{
@@ -105,7 +108,7 @@ int main()
 			continue;
 		status = execve(args[0], args, NULL);
 		if (status == -1)
-			perror("./shell");
+			perror(argv[0]);
 		free(line);
 		free(args);
 	}
