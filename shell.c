@@ -27,6 +27,18 @@ char **split_line(char *line)
 }
 
 /**
+ * is_exit - check if the command is exit
+ * @cmd: pointer to the command
+ * Return: 1 if the command is exit
+ */
+int is_exit(char *cmd)
+{
+	if (cmd[0] == 'e' && cmd[1] == 'x' && cmd[2] == 'i' && cmd[3] == 't' && cmd[4] == '\0')
+		return 1;
+	return 0;
+}
+
+/**
  * main - Simple shell program
  * Return: Always 0
  */
@@ -46,7 +58,12 @@ int main(void)
 			exit(EXIT_FAILURE);
 		}
 		args = split_line(line);
-
+		if (args[1] == NULL && is_exit(args[0]))
+		{
+			free(line);
+			free(args);
+			exit(EXIT_SUCCESS);
+		}
 		if (args[0] == NULL)
 			continue;
 		if (access(args[0], F_OK) == -1)

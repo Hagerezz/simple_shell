@@ -19,4 +19,5 @@
 #define MAX_COMMAND_LENGTH 1024
 
 char **split_line(char *line);
+int is_exit(char *cmd);
 #endif
