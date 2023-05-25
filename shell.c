@@ -101,12 +101,6 @@ int main()
 			free(args);
 			exit(status);
 		}
-		if (args[0][0] == 'c' && args[0][1] == 'd'
-			&& args[0][2] == '\0')
-		{
-			chdir(args[1]);
-			continue;
-		}
 		if (access(args[0], F_OK) == -1)
 			continue;
 		status = execve(args[0], args, NULL);
